@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-4)(^!!k(#v@eqnr-kr!vym8gcz7lmm7k=fy6j!&4o)d)cy!3a=
 DEBUG = True
 
 # Codespace Configuration
+# API URL Format: https://$CODESPACE_NAME-8000.app.github.dev/api/
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
