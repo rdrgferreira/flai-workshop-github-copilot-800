@@ -31,30 +31,17 @@ DEBUG = True
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Get Codespace name from environment
-CODESPACE_NAME = os.environ.get('CODESPACE_NAME', '')
-GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN = os.environ.get('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN', 'app.github.dev')
-
 # Configure ALLOWED_HOSTS for Codespaces and localhost
-if CODESPACE_NAME:
-    ALLOWED_HOSTS = [
-        f'{CODESPACE_NAME}-8000.{GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}',
-        f'{CODESPACE_NAME}-3000.{GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}',
-        'localhost',
-        '127.0.0.1',
-        '0.0.0.0',
-    ]
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+if os.environ.get('CODESPACE_NAME'):
+    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-3000.app.github.dev")
 
 # Configure CSRF trusted origins for Codespaces
-if CODESPACE_NAME:
-    CSRF_TRUSTED_ORIGINS = [
-        f'https://{CODESPACE_NAME}-8000.{GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}',
-        f'https://{CODESPACE_NAME}-3000.{GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}',
-    ]
-else:
-    CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:3000']
+if os.environ.get('CODESPACE_NAME'):
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ.get('CODESPACE_NAME')}-3000.app.github.dev")
 
 
 # Application definition

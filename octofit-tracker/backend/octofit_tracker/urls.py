@@ -27,6 +27,13 @@ from .views import (
     LeaderboardViewSet, WorkoutViewSet
 )
 
+# Configure base URL for Codespaces environment
+codespace_name = os.environ.get('CODESPACE_NAME')
+if codespace_name:
+    base_url = f"https://{codespace_name}-8000.app.github.dev"
+else:
+    base_url = "http://localhost:8000"
+
 # Create router and register viewsets
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
